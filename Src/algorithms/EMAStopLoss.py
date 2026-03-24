@@ -13,12 +13,15 @@ class EMAStopLoss:
         x     -- sensibilité de l'alarme (grand = moins de fausses alertes)
     """
 
-    def __init__(self, alpha=0.2, x=2.0):
+    def __init__(self, arms, alpha=0.2, x=2.0):
         """Crée la politique.
 
-        alpha -- coefficient EWMA, entre 0 et 1 (défaut 0.05)
+        arms  -- liste des identifiants de bras (ex: ["C", "U"])
+        alpha -- coefficient EWMA, entre 0 et 1 (défaut 0.2)
         x     -- multiplicateur du seuil de stop-loss (défaut 2.0)
         """
+        self.arms = list(arms)
+        self.name = "EMAStopLoss"
         self.alpha = alpha  # vitesse d'oubli de l'EMA
         self.x = x          # largeur du seuil en nombre d'écarts-types
         self.reset()
@@ -26,15 +29,28 @@ class EMAStopLoss:
     def reset(self):
         """Réinitialise l'état interne (prior neutre)."""
         # EMA du taux de conversion par bras (initialisé à 0.5 = aucune préférence)
-        self.p_estimation = {"C": 0.5, "U": 0.5}
+        self.p_estimation = {a: 0.5 for a in self.arms}
         # Variance EWMA des résidus par bras (initialisée à 0.01)
-        self.v_estimation = {"C": 0.01, "U": 0.01}
+        self.v_estimation = {a: 0.01 for a in self.arms}
         # Bras actuellement affiché
-        self.current_arm = "C"
+        self.arm_chosen = self.arms[0]
 
-    def get_action(self):
-        """Retourne le produit à afficher aujourd'hui ("C" ou "U")."""
-        return self.current_arm
+    def run(self, Q_t=None):
+        """Point d'entrée principal : choisit le bras, puis met à jour si une
+        observation est fournie.
+
+        Q_t -- nombre d'achats du tour précédent (None au premier tour)
+
+        Retourne le bras choisi.
+        """
+        if Q_t is not None:
+            self.update(Q_t)
+        self.arm_chosen = self.choose_action()
+        return self.arm_chosen
+
+    def choose_action(self):
+        """Retourne le produit à afficher aujourd'hui."""
+        return self.arm_chosen
 
     def update(self, Q_t):
         """Met à jour les statistiques après avoir observé Q_t achats.
@@ -48,7 +64,7 @@ class EMAStopLoss:
         4. Mettre à jour l'EMA du taux et de la variance
         5. Si alarme : basculer vers l'autre produit
         """
-        a = self.current_arm
+        a = self.arm_chosen
         c_t = Q_t / 100  # taux de conversion observé (entre 0 et 1)
 
         # Résidu : écart entre l'observation et la prédiction AVANT mise à jour
@@ -64,9 +80,7 @@ class EMAStopLoss:
         # Mise à jour de l'EMA de la variance des résidus
         self.v_estimation[a] = (1 - self.alpha) * self.v_estimation[a] + self.alpha * e_t ** 2
 
-        # Si alarme déclenchée : basculer vers l'autre produit
+        # Si alarme déclenchée : basculer vers l'autre bras
         if alarm:
-            if a == "C":
-                self.current_arm = "U"
-            else:
-                self.current_arm = "C"
+            idx = self.arms.index(a)
+            self.arm_chosen = self.arms[(idx + 1) % len(self.arms)]

@@ -66,10 +66,10 @@ class WeatherSimulator():
         """Retourne la météo du jour t. Pour l'analyse uniquement."""
         return self.weather[t]
     
-    def run_simulation(self, ema_stop_loss):
+    def run_simulation(self, algorithm):
         """Lance la simulation jour par jour sur l'horizon complet.
 
-        ema_stop_loss -- instance d'EMAStopLoss
+        algorithm -- instance d'un algorithme (EMAStopLoss ou adaptateur compatible)
 
         Retourne un dictionnaire contenant les historiques :
             actions   -- liste des produits affichés chaque jour ("C" ou "U")
@@ -89,23 +89,23 @@ class WeatherSimulator():
         threshold_list = []  # seuil avant mise à jour
 
         for t in range(self.T):
-            action = ema_stop_loss.get_action()
+            action = algorithm.choose_action()
             Q_t = self.step(t, action)
             c_t = Q_t / 100
 
             # Sauvegarder le seuil AVANT update (c'est celui utilisé pour la décision)
-            a = ema_stop_loss.current_arm
-            sigma = math.sqrt(ema_stop_loss.v_estimation[a])
-            threshold = max(0, ema_stop_loss.p_estimation[a] - ema_stop_loss.x * sigma)
+            a = algorithm.arm_chosen
+            sigma = math.sqrt(algorithm.v_estimation[a])
+            threshold = max(0, algorithm.p_estimation[a] - algorithm.x * sigma)
 
-            ema_stop_loss.update(Q_t)
+            algorithm.update(Q_t)
 
             actions.append(action)
             Q_list.append(Q_t)
             c_list.append(c_t)
             oracle_list.append(self.get_oracle_action(t))
             weather_list.append(self.get_weather(t))
-            p_estimation_list.append(ema_stop_loss.p_estimation[a])  # p_estimation APRÈS update
+            p_estimation_list.append(algorithm.p_estimation[a])  # p_estimation APRÈS update
             threshold_list.append(threshold)
 
         return {
