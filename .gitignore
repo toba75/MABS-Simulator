@@ -1,16 +1,56 @@
-.venv/
+# Byte-compiled / optimized / DLL files
 __pycache__/
-*.pyc
-*.pyo
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE / editors
 .idea/
 .vscode/
 .project
 .pydevproject
-*.egg-info/
-dist/
-build/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment variables
 .env
+
+# Jupyter / IPython
+.ipynb_checkpoints/
+
+# Logs, results and outputs
+logs/
 Output/
+results/
+runs/
+outputs/
+wandb/
+mlruns/
+
+# Serialized models / data
+*.pkl
+*.pickle
+*.h5
+*.hdf5
+*.parquet
+
+# Misc
+*.log
 
 # Large dataset files (>50MB)
 Resources/bandit_datasets/01-Covertype/contexts.csv
