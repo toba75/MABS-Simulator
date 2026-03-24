@@ -1,0 +1,19 @@
+,arm_id,arm_labels,category_1,category_2,category_3,category_4,category_5,category_6,category_7,category_8,lifetime,lifetime_rewards
+0,0,Various sports activities proposal,1,0,0,0,0,0,0,0,130,0.2571428571428571
+1,1,The results of your favorite sports team,1,0,0,0,0,0,0,0,47,0.7314285714285714
+2,2,A concert of your favorite band,0,1,0,0,0,0,0,0,175,0.0
+3,3,A concert of a symphony orchestra,0,1,0,0,0,0,0,0,119,0.31999999999999995
+4,4,A discount for your favorite clothes store ,0,0,1,0,0,0,0,0,50,0.7142857142857143
+5,5,A discount for your favorite bookshop,0,0,0,1,0,0,0,0,124,0.2914285714285715
+6,6,A discount for your favorite pub,0,0,0,0,1,0,0,0,110,0.37142857142857144
+7,7,A discount for your favorite restaurant,0,0,0,0,1,0,0,0,42,0.76
+8,8,An exhibition about your favorite author,0,0,0,1,0,0,0,0,36,0.7942857142857143
+9,9,The time of your next bus - tram or subway (in real-time),0,0,0,0,0,1,0,0,64,0.6342857142857143
+10,10,The geolocalized weather in the next hour,0,0,0,0,0,1,0,0,149,0.14857142857142858
+11,11,Cultural scientific event for the general public,0,0,0,0,0,0,1,0,121,0.3085714285714286
+12,12,The open house of a natural sciences museum,0,0,0,0,0,0,1,0,153,0.12571428571428567
+13,13,Pollution rate and air quality in your city,0,0,0,0,0,1,0,0,167,0.04571428571428571
+14,14,Political news for your city or state,0,0,0,0,0,0,0,1,1,0.9942857142857143
+15,15,National or International news,0,0,0,0,0,0,0,1,126,0.28
+16,16,Local news,0,0,0,0,0,0,0,1,50,0.7142857142857143
+17,17,Information Technology workshop for the general public,0,0,0,0,0,0,1,0,24,0.8628571428571429

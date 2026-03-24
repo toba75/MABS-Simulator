@@ -1,0 +1,19 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+.idea/
+.vscode/
+.project
+.pydevproject
+*.egg-info/
+dist/
+build/
+.env
+Output/
+
+# Large dataset files (>50MB)
+Resources/bandit_datasets/01-Covertype/contexts.csv
+Resources/bandit_datasets/01-Covertype/results.csv
+Resources/bandit_datasets/04-Poker/results.csv
+Resources/original_datasets/01-Covertype/covtype.csv

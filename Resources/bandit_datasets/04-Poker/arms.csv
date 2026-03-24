@@ -1,0 +1,11 @@
+,arm_id,arm_labels
+0,0,Nothing
+1,1,One pair
+2,2,Two pairs
+3,3,Three of a kind
+4,4,Straight
+5,5,Flush
+6,6,Full house
+7,7,Four of a kind
+8,8,Straight flush
+9,9,Royal flush
